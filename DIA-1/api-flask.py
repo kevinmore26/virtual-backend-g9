@@ -1,6 +1,8 @@
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 productos=[
     {
         "nombre":"palta fuerte",
@@ -23,8 +25,8 @@ def gestion_productos():
     print(request.method)
     if request.method == 'GET':
         return{
-            "message":'',
-            "content":"los productos son:"
+            "message":'los productos son:',
+            "content":productos     
         }
 
     elif request.method =='POST':
@@ -34,19 +36,43 @@ def gestion_productos():
         "message":"producto creado exitosamente",
         "content":producto
     }
-@app.route("/producto/<int:id>", methods=["GET"])
+@app.route("/producto/<int:id>", methods=["GET","PUT","DELETE"])
 def gestion_producto(id):
     total_productos=len(productos)
-    if id<=total_productos:
-        return{
+    if id<total_productos:
+        if request.method =="GET":
+            return{
             "content":productos[id],
             "message": None
-        }
+        },200
+        elif request.method =="PUT":
+            data = request.get_json()
+            productos[id]=data
+            return{
+                "content":productos[id],
+                "message":"Producto actualizado exitosamente"
+            }, 201
+
+        elif request.method =="DELETE":
+                del productos[id]
+                return{
+                    "content":None,
+                    "message":"Producto eliminado exitosamente"
+                }
+
+            
+
+
+            
+
     else:
-        return{
+            return{
                 "message":"producto no existe",
                 "content":None
-        }
+        },404
+    
+
+
     # print(request.method)
     # if id<=10 =="GET":
     #     return{

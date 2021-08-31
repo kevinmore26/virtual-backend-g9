@@ -1,4 +1,8 @@
 USE CALIFICACIONES;
+-- SELECT * FROM ALUMNOS WHERE NOMBRE LIKE(EMPIECE) 'A%'
+-- TMB SE PUEDE PONER PARA QUE COMIENCEN Y TERMINEN '%A%' 
+SELECT * FROM ALUMNOS WHERE CORREO LIKE '%HOTMAIL%';
+SELECT count(correo), nombre from ALUMNOS where correo like '%hotmail%' group by nombre;
 
 INSERT INTO ALUMNOS (nombre,apellido,correo) VALUES ('Lee','Cross','billpeterson@thompson.com');
 INSERT INTO ALUMNOS (nombre,apellido,correo) VALUES ('Elizabeth','Jarvis','lauren90@hotmail.com');

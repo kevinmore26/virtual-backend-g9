@@ -23,3 +23,6 @@ CREATE TABLE alumnos_cursos(
      FOREIGN KEY (id_alumno) REFERENCES alumnos(id),
     FOREIGN KEY (id_curso) REFERENCES cursos(id)
 );
+                    SELECT * FROM ALUMNOS WHERE CORREO LIKE '%HOTMAIL%';
+                    select nombre_alumno, apellido_alumno, nombre_curso
+

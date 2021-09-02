@@ -1,12 +1,18 @@
 from conexion_bd import base_de_datos
 from sqlalchemy import Column, types
 
-class IngredientesModel(base_de_datos.Model):
+
+class IngredienteModel(base_de_datos.Model):
     __tablename__ = 'ingredientes'
 
-    # id int primary key not null unique auto_increment
-    ingredienteId = Column(name='id',type_=types.Integer,primary_key=True, unique=True, autoincrement=True, nullable=False)
+    # id int primary key not null unique auto_increment,
+    ingredienteId = Column(name='id', type_=types.Integer, primary_key=True,
+                           unique=True, autoincrement=True, nullable=False)
 
-    # ingredienteId = Column.__init__(name='id',type_=types.Integer)
+    ingredienteNombre = Column(name='nombre', type_=types.String(
+        length=45), nullable=False, unique=True)
 
-    ingredienteNombre= Column(name='nombre',primary_key=True,type_=types.String(length=45))
+    def __str__(self):
+        print(self.ingredienteId)
+        # return 'El ingrediente es: %s' % self.ingredienteNombre
+        return 'El ingrediente es: {}'.format(self.ingredienteNombre)

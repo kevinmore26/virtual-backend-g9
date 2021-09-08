@@ -1,7 +1,7 @@
 from conexion_bd import base_de_datos
 from sqlalchemy import Column, types, orm
 
-                                
+
 class IngredienteModel(base_de_datos.Model):
     __tablename__ = 'ingredientes'
 

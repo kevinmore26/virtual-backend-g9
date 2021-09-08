@@ -1,9 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
+    "description": "Mi primera API usando base de datos",
     "version": "1.0",
     "title": "Reposteria Flask",
-    "contact": {}
+    "contact": {
+      "email": "kore_2608@hotmail.com",
+      "name": "Kevin More"
+    },
+    "termsOfService": "http://google.com"
   },
   "host": "127.0.0.1:5000",
   "basePath": "/",
@@ -17,11 +22,12 @@
     "application/json"
   ],
   "paths": {
-    "//ingredientes": {
+    "/ingredientes": {
       "post": {
-        "summary": "/ingredientes",
+        "summary": "Metodo para crear un ingrediente",
+        "description": "Esta es una descripcion de como crear un ingrediente",
         "tags": [
-          "ingredientes"
+          "Ingredientes"
         ],
         "operationId": "/ingredientes",
         "deprecated": false,
@@ -33,7 +39,7 @@
             "name": "Body",
             "in": "body",
             "required": true,
-            "description": "",
+            "description": "informacion para ingresar el nuevo ingrediente",
             "schema": {
               "$ref": "#/definitions/~1ingredientesrequest"
             }
@@ -45,13 +51,11 @@
             "headers": {}
           }
         }
-      }
-    },
-    "/ingredientes": {
+      },
       "get": {
         "summary": "/ingredientes",
         "tags": [
-          "ingredientes"
+          "Ingredientes"
         ],
         "operationId": "Get/ingredientes",
         "deprecated": false,
@@ -67,18 +71,52 @@
         }
       }
     },
-    "/ingrediente/1": {
+    "/ingrediente/{id}": {
       "get": {
         "summary": "/ingrediente/:id",
         "tags": [
-          "ingredientes"
+          "Ingredientes"
         ],
         "operationId": "/ingrediente/:id",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "/ingrediente/:id1",
+        "tags": [
+          "Ingredientes"
+        ],
+        "operationId": "/ingrediente/:id1",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -89,7 +127,7 @@
       "put": {
         "summary": "/ingrediente/:id",
         "tags": [
-          "ingredientes"
+          "Ingredientes"
         ],
         "operationId": "Put/ingrediente/:id",
         "deprecated": false,
@@ -97,6 +135,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
           {
             "name": "Body",
             "in": "body",
@@ -115,31 +160,11 @@
         }
       }
     },
-    "//ingrediente/1": {
-      "delete": {
-        "summary": "/Ingrediente/:id1",
-        "tags": [
-          "ingredientes"
-        ],
-        "operationId": "/Ingrediente/:id1",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
     "/buscar_ingrediente": {
       "get": {
         "summary": "/buscar_ingrediente",
         "tags": [
-          "ingredientes"
+          "Ingredientes"
         ],
         "operationId": "/buscar_ingrediente",
         "deprecated": false,
@@ -152,7 +177,7 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "parametro para buscar el nombre"
           }
         ],
         "responses": {
@@ -228,7 +253,7 @@
         }
       }
     },
-    "/receta/1": {
+    "/receta/{id}": {
       "get": {
         "summary": "/receta/:id",
         "tags": [
@@ -239,7 +264,15 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -308,18 +341,26 @@
         }
       }
     },
-    "/preparaciones/1": {
+    "/preparaciones/{id}": {
       "get": {
-        "summary": "/preparaciones",
+        "summary": "/preparaciones/:id",
         "tags": [
           "preparaciones"
         ],
-        "operationId": "Get/preparaciones",
+        "operationId": "/preparaciones/:id",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -333,7 +374,7 @@
     "/ingredientesrequest": {
       "title": "/ingredientesrequest",
       "example": {
-        "nombre": "arroz con leche"
+        "nombre": ""
       },
       "type": "object",
       "properties": {
@@ -348,7 +389,7 @@
     "/ingrediente/:idrequest": {
       "title": "/ingrediente/:idrequest",
       "example": {
-        "nombre": "arroz con poshito"
+        "nombre": ""
       },
       "type": "object",
       "properties": {
@@ -363,7 +404,7 @@
     "/recetasrequest": {
       "title": "/recetasrequest",
       "example": {
-        "nombre": "moffin",
+        "nombre": "Palta Rellena",
         "porcion": "personal"
       },
       "type": "object",
@@ -383,11 +424,11 @@
     "/recetas_ingredientes_request": {
       "title": "/recetas_ingredientes_request",
       "example": {
-        "receta_id": 300,
+        "receta_id": 0,
         "ingredientes_id": [
           {
-            "ingrediente_id": 1,
-            "cantidad": "40gr."
+            "ingrediente_id": 0,
+            "cantidad": "0gr"
           }
         ]
       },
@@ -400,7 +441,8 @@
         "ingredientes_id": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/IngredientesId"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -409,33 +451,12 @@
         "ingredientes_id"
       ]
     },
-    "IngredientesId": {
-      "title": "IngredientesId",
-      "example": {
-        "ingrediente_id": 1,
-        "cantidad": "40gr."
-      },
-      "type": "object",
-      "properties": {
-        "ingrediente_id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "cantidad": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "ingrediente_id",
-        "cantidad"
-      ]
-    },
     "/preparacionesrequest": {
       "title": "/preparacionesrequest",
       "example": {
         "receta_id": 1,
-        "orden": 1,
-        "descripcion": "Hervir el agua"
+        "orden": 2,
+        "descripcion": "Echar el pollo al agua hirviendo"
       },
       "type": "object",
       "properties": {
@@ -460,7 +481,7 @@
   },
   "tags": [
     {
-      "name": "ingredientes"
+      "name": "Ingredientes"
     },
     {
       "name": "recetas"

@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "05b308eb-b27f-4763-a2e2-c9c7e6f5e9d7",
+		"_postman_id": "8a659120-4734-4389-9d45-329fe298c81b",
 		"name": "Reposteria Flask",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "ingredientes",
+			"name": "Ingredientes",
 			"item": [
 				{
 					"name": "/ingredientes",
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"arroz con leche\"\r\n    \r\n    }",
+							"raw": "{\r\n    \"nombre\":\"Arroz de trigo4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,9 +40,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}ingredientes",
+							"raw": "{{url_local}}/ingredientes",
 							"host": [
-								"{{url_local}}ingredientes"
+								"{{url_local}}"
+							],
+							"path": [
+								"ingredientes"
 							]
 						}
 					},
@@ -54,11 +57,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}ingrediente/1",
+							"raw": "{{url_local}}/ingrediente/1",
 							"host": [
-								"{{url_local}}ingrediente"
+								"{{url_local}}"
 							],
 							"path": [
+								"ingrediente",
 								"1"
 							]
 						}
@@ -72,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"arroz con poshito\"\r\n    \r\n    }",
+							"raw": "{\r\n    \"nombre\":\"Jalapeño\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -80,19 +84,20 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}ingrediente/1",
+							"raw": "{{url_local}}/ingrediente/1121",
 							"host": [
-								"{{url_local}}ingrediente"
+								"{{url_local}}"
 							],
 							"path": [
-								"1"
+								"ingrediente",
+								"1121"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/Ingrediente/:id",
+					"name": "/ingrediente/:id",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -115,16 +120,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}buscar_ingrediente?nombre=e",
-							"host": [
-								"{{url_local}}buscar_ingrediente"
-							],
-							"query": [
-								{
-									"key": "nombre",
-									"value": "e"
-								}
-							]
+							"raw": ""
 						}
 					},
 					"response": []
@@ -141,7 +137,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\":\"moffin\",\r\n    \"porcion\":\"personal\"\r\n}",
+							"raw": "{\r\n    \"nombre\":\"Palta Rellena\",\r\n    \"porcion\": \"personal\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -149,9 +145,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}recetas",
+							"raw": "{{url_local}}/recetas",
 							"host": [
-								"{{url_local}}recetas"
+								"{{url_local}}"
+							],
+							"path": [
+								"recetas"
 							]
 						}
 					},
@@ -163,18 +162,21 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}recetas?page=1&perPage=5",
+							"raw": "{{url_local}}/recetas?page=59&perPage=7",
 							"host": [
-								"{{url_local}}recetas"
+								"{{url_local}}"
+							],
+							"path": [
+								"recetas"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "59"
 								},
 								{
 									"key": "perPage",
-									"value": "5"
+									"value": "7"
 								}
 							]
 						}
@@ -187,12 +189,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}receta/1",
+							"raw": "{{url_local}}/receta/200",
 							"host": [
-								"{{url_local}}receta"
+								"{{url_local}}"
 							],
 							"path": [
-								"1"
+								"receta",
+								"200"
 							]
 						}
 					},
@@ -210,7 +213,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"receta_id\": 300,\r\n    \"ingredientes_id\": [\r\n        {\r\n            \"ingrediente_id\": 1,\r\n            \"cantidad\": \"40gr.\"\r\n        }\r\n    \r\n       \r\n        ]\r\n}",
+							"raw": "{\r\n    \"receta_id\": 100,\r\n    \"ingredientes_id\": [1,2]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,9 +221,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}recetas_ingredientes",
+							"raw": "{{url_local}}/recetas_ingredientes",
 							"host": [
-								"{{url_local}}recetas_ingredientes"
+								"{{url_local}}"
+							],
+							"path": [
+								"recetas_ingredientes"
 							]
 						}
 					},
@@ -238,7 +244,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"receta_id\":1,\r\n    \"orden\":1,\r\n    \"descripcion\":\"Hervir el agua\"\r\n}",
+							"raw": "{\r\n    \"receta_id\":1,\r\n    \"orden\": 2,\r\n    \"descripcion\": \"Echar el pollo al agua hirviendo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -246,25 +252,29 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}preparaciones",
+							"raw": "{{url_local}}/preparaciones",
 							"host": [
-								"{{url_local}}preparaciones"
+								"{{url_local}}"
+							],
+							"path": [
+								"preparaciones"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/preparaciones",
+					"name": "/preparaciones/:id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url_local}}preparaciones/1",
+							"raw": "{{url_local}}/preparaciones/1",
 							"host": [
-								"{{url_local}}preparaciones"
+								"{{url_local}}"
 							],
 							"path": [
+								"preparaciones",
 								"1"
 							]
 						}
@@ -297,7 +307,7 @@
 	"variable": [
 		{
 			"key": "url_local",
-			"value": "http://127.0.0.1:5000/"
+			"value": "http://127.0.0.1:5000"
 		}
 	]
 }

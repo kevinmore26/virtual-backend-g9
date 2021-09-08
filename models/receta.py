@@ -1,5 +1,5 @@
 from conexion_bd import base_de_datos
-from sqlalchemy import Column, types
+from sqlalchemy import Column, types, orm   
 from enum import Enum
 
 
@@ -16,6 +16,10 @@ class RecetaModel(base_de_datos.Model):
                       primary_key=True, autoincrement=True, unique=True)
 
     recetaNombre = Column(
-        name='nombre', type_=types.String(length=45), nullable=False)
+        name='nombre', type_=types.String(length=255), nullable=False)
 
     recetaPorcion = Column(name='porcion', type_=types.Enum(EnumPorcion))
+
+    preparaciones = orm.relationship('PreparacionModel', backref='preparacionRecetas',lazy=True)
+
+    recetas_ingredientes=orm.relationship("RecetaIngredienteModel", backref="recetaIngredienteRecetas")

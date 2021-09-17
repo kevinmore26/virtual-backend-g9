@@ -1,6 +1,8 @@
 const pwd1=document.getElementById("pwd1");
 const pwd2=document.getElementById("pwd2");
 const btnEnviar = document.getElementById("btn-enviar");
+const correo=document.getElementById("correo")
+const formulario=document.getElementById("form-pwd")
 
 btnEnviar.onclick=async(e)=>
 {
@@ -8,12 +10,36 @@ btnEnviar.onclick=async(e)=>
     {
         alert("las contraseñas no coinciden");
     }
-    const respuesta = await fetch('/change-password',{method:'POST', body:JSON.stringify({
-        email:'',
-        password:pwd1
-    })})
+    const respuesta = await fetch('/change-password',{method:'POST', 
+        
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            email:correo.innerText,
+            password:pwd1.value,
+        }),
+
+        
+    
+    })
 
     const json = await respuesta.json();
-    console.log(json)
+    console.log(respuesta.status)
+    console.log(json);
+    if(respuesta.status ===400)
+    {
+        swal({
+            title:json.message,
+            icon:"error",
+        });
+    }
+    else{
+        console.log(json.message);
+        swal({
+        title:json.message,
+        icon:"success",
+    });
+    }
 };
 

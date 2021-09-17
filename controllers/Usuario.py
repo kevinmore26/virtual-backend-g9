@@ -10,10 +10,7 @@ from os import environ
 from datetime import datetime, timedelta
 from json import dumps
 from config.enviar_correo import enviarCorreo
-
-
-PATRON_CORREO = r'\w+[@]\w+[.]\w{2,3}'
-PATRON_PASSWORD = r'(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#&?])[A-Za-z\d@$!%*#&?]{6,}'
+from utils.patrones import PATRON_CORREO, PATRON_PASSWORD
 
 
 class RegistroController(Resource):
@@ -266,7 +263,7 @@ class ResetearPasswordController(Resource):
             }, 404
         fernet = Fernet(environ.get('FERNET_SECRET'))
         mensaje = {
-            "fecha_caducidad": str(datetime.utcnow()+timedelta(minutes=30)),
+            "fecha_caducidad": str(datetime.utcnow()+timedelta(hours=1)),
             "correo": correo
         }
         mensaje_json = dumps(mensaje)

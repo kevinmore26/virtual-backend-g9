@@ -2,7 +2,7 @@ from config.conexion_bd import base_de_datos
 from models.Tarea import TareaModel
 from flask_restful import Resource, reqparse
 from flask_jwt import current_identity, jwt_required
-
+from cloudinary import CloudinaryImage
 
 class TareasController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
@@ -79,8 +79,14 @@ class TareasController(Resource):
             del tareaDict['_sa_instance_state']
             tareaDict['tareaFechaCreacion'] = str(
                 tareaDict['tareaFechaCreacion'])
-
+            respuestaCD= CloudinaryImage(tarea.tareaImagen).image(transformation=[
+                {'background': "#ce6767", 'border': "17px_solid_rgb:000", 'height': 310, 'quality': 46, 'radius': 14, 'width': 634, 'zoom': "1.8", 'crop': "scale"},
+                {'angle': 185}
+            ])
+            print(respuestaCD)
             tareaDict['tareaEstado'] = tareaDict['tareaEstado'].value
+            tareaDict['tareaImagen']= respuestaCD
+           
 
             resultado.append(tareaDict)
         # devolver todas las tareas correspondiente al usuario del current_identity

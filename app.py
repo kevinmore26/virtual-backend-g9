@@ -197,7 +197,7 @@ def subir_archivo_servidor():
     # sacado su extension
     extension = nombre_inicial.rsplit(".")[-1]
     # genero un nuevo nombre del archivo
-    nuevo_nombre = str(uuid4())+'.'+extension
+    nuevo_nombre = archivo +'.'+extension
     # uso ese nombre para guardar el archivo
     archivo.save(path.join('media', nuevo_nombre))
     return {
@@ -230,13 +230,35 @@ def eliminar_imagen_servidor(nombre):
 @app.route('/subir-imagen-cloudinary', methods=['POST'])
 def subir_imagen_cd():
     imagen = request.files.get('imagen')
+    
+    # ------------
     print(imagen)
-    resultado = upload(imagen, resource_type="video")
-    return {
-        "message": "Archivo subido exitosamente",
-        "content": resultado
-    }
-
+    resultado = upload(imagen)
+    for public_id in range(len(resultado)):
+        return {
+            "message": "Archivo subido exitosamente",
+            "content": resultado[public_id]
+        },201
+        
+    # --------------
+    # for prueba in range(len(resultado)):
+        
+    #     print(prueba)
+        #     return{
+        #     "message":"imagen no encontrada",
+            
+        #     },404
+        # else:
+        #     return{
+        #         "message":"hola",
+        #         "content":public_id
+        #     }
+        
+        
+    print(imagen.filename)    
+    nombre_imagen=imagen.filename
+    
+  
 
 @app.route('/eliminar-imagen-cloudinary/<string:id>', methods=['DELETE'])
 def eliminar_imagen_cd(id):

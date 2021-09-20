@@ -275,11 +275,25 @@ class ResetearPasswordController(Resource):
         # print(mensaje_desencriptado)
         link = request.host_url+"change-password?token={}".format(
             mensaje_encriptado)
-
-        enviarCorreo(correo, """Hola, {}
-        Has solicitado el reinicio de tu contraseña, haz click en el siguiente enlace para efectuarla:
+                    
+        enviarCorreo(correo, """
+        <form  id="form-pwd"style="width:30vw; border:none;padding-right:50px;margin:0 auto">
+  <h2 style='text-align:left'>Hola, <code id="correo" style='color:blue;font-size:20px'>{}! 💻</code> <br></h2>
+  <h3>Haz hecho una petición para cambiar tu contraseña, si no haz sido tú por favor ignora este e-mail</h3>
+  
+       <p> Has solicitado el reinicio de tu contraseña, haz click en el siguiente enlace para efectuarla:<p>
             <br>
-            <a href="{}" ><button style="background-color:peru; color:white; border:none; ">Cambiar</button></a>
+            <a href="{}" ><button style="background-color:blue;border-radius:15px;font-size:15px;color:white;padding-left: 45px;
+    padding-right: 45px;padding-top:15px;padding-bottom:15px;display:flex; justify-content:center;border:none;text-align:center;margin:0 auto;text-decoration:None;">Restablecer contraseña</button></a>
+             <hr>
+  <p>Necesitas ayuda?<code style='color:blue'> Contacta a nuestro soporte técnico</code> Déjanos saber tu opinión, siempre será importante 😁</p>
+  <hr>
+  <div style='margin:0 auto;text-align:center'>
+  <h3>Dato curioso 🧐 </h3>
+  <h4>¿Sabías que gracias al <code style='color:blue;'> encriptamiento </code> evitas robos de tú información personal?</h4>
+</div>
+<div style='margin-left:68px;'><h5>Enviado por mishis123 <code style='color:blue'> Mira nuestra blog </code> <code style='color:blue'>- @mishis123</code> </h5></div>
+</form>
         """.format(usuario.usuarioNombre, link))
 
         return {

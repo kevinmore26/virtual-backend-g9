@@ -1,1 +1,7 @@
-django_backend/
+entorno_flask1/
+__pycache__/
+.env
+
+media/*
+
+!media/not_found.png

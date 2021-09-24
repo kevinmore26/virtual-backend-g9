@@ -5,7 +5,7 @@ from django.db import models
 class ProductoModel(models.Model):
 
     class OpcionesUm(models.TextChoices):
-        UNIDADES='UN','UNIDADES'
+        UNIDAD='UN','UNIDAD'
         DOCENTA='DOC','DOCENA'
         CIENTO='CI','CIENTO'
         MILLAR='MI','MILLAR'
@@ -16,9 +16,15 @@ class ProductoModel(models.Model):
     # 
     productoPrecio=models.DecimalField(max_digits=5,decimal_places=2,db_column='precio')
     # 
-    productoUnidadMedida= models.TextField(choices=OpcionesUm.choices,default=OpcionesUm.UNIDADES,db_column='unidad_medida')
+    productoUnidadMedida= models.TextField(choices=OpcionesUm.choices,default=OpcionesUm.UNIDAD,db_column='unidad_medida')
 
+    
 
+    productoEstado=models.BooleanField(db_column='estado',default=True,null=False)
+    # python manage.py makemigrations gestion --name creacion_columnas_estado
+
+    def __str__(self):
+        return self.productoNombre
     class Meta:
         # indica el nombre de la tabla en la bd 
         db_table='productos'
@@ -35,12 +41,18 @@ class ProductoModel(models.Model):
 class ClienteModel(models.Model):
     clienteId=models.AutoField(primary_key=True,null=False, unique=True, db_column='id')
 
-    clienteNombre= models.CharField(max_length=45,db_column='nombre',null=False)
+    clienteNombre= models.CharField(max_length=45,db_column='nombre',null=False,verbose_name='nombre',help_text='ingresa tu nombre xd')
 
-    clienteDocumento=models.CharField(max_length=12,db_column='documento',unique=True)
+    clienteDocumento=models.CharField(max_length=12,db_column='documento',unique=True,verbose_name='ingrese su documento')
 
-    pclienteDireccion=models.CharField(max_length=100,db_column='direccion')
+    clienteDireccion=models.CharField(max_length=100,db_column='direccion',verbose_name='direccion')
 
+    clienteEstado=models.BooleanField(db_column='estado',default=True, null=False)
+
+    def __str__(self):
+        # para sobreescribir la forma en la cual se mostrará el objeto por consola al ser consultado en su totalidad
+        return self.clienteNombre
+    
     class Meta:
         db_table='clientes'
         verbose_name='cliente'

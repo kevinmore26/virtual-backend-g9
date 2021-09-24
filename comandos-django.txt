@@ -13,5 +13,11 @@ NOTA: para cualquier comando se puede añadir al final el sub-comando --help par
 
 python manage.py makemigrations <nombre_app> --name <nombre_migracion> => creara una nueva migracion en relacion al contenido actual de nuestros modelos
 
+python manage.py makemigrations <nombre_app> --name creacion_columnas_estado
+-
 python manage.py sqlmigrate gestion(que es el nombre de la app)   <nombre_migracion>
 
+
+python manage.py createsuperuser
+
+python manage.py dbshell => usara las credenciales de nuestro proyecto para conectarnos a la bd del proyecto

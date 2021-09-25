@@ -18,6 +18,9 @@ python manage.py makemigrations <nombre_app> --name creacion_columnas_estado
 python manage.py sqlmigrate gestion(que es el nombre de la app)   <nombre_migracion>
 
 
+python manage.py test #--verbose 1#  => correrá todos los archivos test.py que tengamos en el proyecto , adicioal a ello si queremos un mayor grado de detalle de los test podemos usar el flag verbosity y con valores del 0 al 3 siendo el 0 el menor detalle y el 3 el mayor
+
+
 python manage.py createsuperuser
 
 python manage.py dbshell => usara las credenciales de nuestro proyecto para conectarnos a la bd del proyecto

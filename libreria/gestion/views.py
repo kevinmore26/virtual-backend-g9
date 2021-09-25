@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.generics import ListAPIView,CreateAPIView, ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from .models import ProductoModel
+from .models import ProductoModel, ClienteModel
 from .serializers import ProductoSerializer
 from rest_framework import status
+from .utils import PaginacionPersonalizada
+from rest_framework.serializers import Serializer
 # from django.db.models.
 
 class PruebaController(APIView):
@@ -23,16 +25,17 @@ class ProductosController(ListCreateAPIView):
     # es igual que el SELECT * FROM productos ;
 
     serializer_class=ProductoSerializer
+    pagination_class=PaginacionPersonalizada
 
-    def get(self,request):
-        respuesta=self.get_queryset().filter(productoEstado=True).all()
-        print(respuesta)
-        respuesta_serializada= self.serializer_class(instance=respuesta,many=True)
+    # def get(self,request):
+    #     respuesta=self.get_queryset().filter(productoEstado=True).all()
+    #     print(respuesta)
+    #     respuesta_serializada= self.serializer_class(instance=respuesta,many=True)
         
-        return Response(data={
-            "message":None,
-            "content":respuesta_serializada.data
-        })
+    #     return Response(data={
+    #         "message":None,
+    #         "content":respuesta_serializada.data
+    #     })
 
     def post(self, request:Request):
         print(request.data)
@@ -41,7 +44,7 @@ class ProductosController(ListCreateAPIView):
             # PARA HACER EL GUARDADO DE UN NUEVO REGISTRO EN LABD ES OBLIGATORIO HACER PRIMERO EL IS_vALID
             data.save()
             return Response(data={
-                "message":None,
+                "message":"Producto creado exitosamente",
                 "content":data.data
             },status=status.HTTP_201_CREATED)
         else:
@@ -117,6 +120,23 @@ class ProductoController(APIView):
             "content":serializador.data
         })
         
+
+class ClienteController(ListCreateAPIView):
+    queryset=ClienteModel.objects.all()
+    def get(self,request):
+        pass
+    
+    def post(self,request:Request):
+        data:Serializer=self.get_serializer(data=request.data)
+        if data.is_valid():
+            return Response(data={
+                "message":"Cliente agregado exitosamente"
+            })
+        else:
+            return Response(data={
+                "message":"Error al ingresar el cliente",
+                "content":data.errors
+            })
 
 
 

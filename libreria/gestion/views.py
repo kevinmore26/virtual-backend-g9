@@ -1,143 +1,152 @@
-# from libreria.gestion.serializers import ProductoSerializer
-# from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.generics import ListAPIView,CreateAPIView, ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import ProductoModel, ClienteModel
-from .serializers import ProductoSerializer
+from .serializers import ProductoSerializer, ClienteSerializer
 from rest_framework import status
 from .utils import PaginacionPersonalizada
 from rest_framework.serializers import Serializer
-# from django.db.models.
+
 
 class PruebaController(APIView):
-    def get(self, request,format=None):
-        return Response({'message':'Exito'},status=200)
-    
-    def post(self,request:Request, format=None):
+    def get(self, request, format=None):
+        return Response(data={'message': 'Exito'}, status=200)
+
+    def post(self, request: Request, format=None):
         print(request.data)
-        return Response(data={'message':'Hiciste post'})
+        return Response(data={'message': 'Hiciste post'})
+
 
 class ProductosController(ListCreateAPIView):
-    # pondremos la consulta de ese modelo en la BD
-    queryset=ProductoModel.objects.all()
-    # es igual que el SELECT * FROM productos ;
+    # pondremos la consulta de ese modelo en la bd
+    queryset = ProductoModel.objects.all()  # SELECT * FROM productos;
+    serializer_class = ProductoSerializer
+    pagination_class = PaginacionPersonalizada
 
-    serializer_class=ProductoSerializer
-    pagination_class=PaginacionPersonalizada
-
-    # def get(self,request):
-    #     respuesta=self.get_queryset().filter(productoEstado=True).all()
+    # def get(self, request):
+    #     respuesta = self.get_queryset().filter(productoEstado=True).all()
     #     print(respuesta)
-    #     respuesta_serializada= self.serializer_class(instance=respuesta,many=True)
-        
+    #     # instance => para cuando ya tenemos informacion en la bd y la queremos serializar para mostrarsela al cliente
+    #     # data => para ver si la informacion que me esta enviando el cliente esta buena o no
+    #     # many => sirve para indicar que estamos pasando una lista de instancias de la clase del modelo
+    #     respuesta_serializada = self.serializer_class(
+    #         instance=respuesta, many=True)
+    #     # el atributo data de la clase ListSerializer sirve para obtener la informacion proveida por el serializador en forma de un diccionario o una lista (en el caso que sean mas de una instancia)
     #     return Response(data={
-    #         "message":None,
-    #         "content":respuesta_serializada.data
+    #         "message": None,
+    #         "content": respuesta_serializada.data
     #     })
 
-    def post(self, request:Request):
-        print(request.data)
-        data=self.serializer_class(data=request.data)
+    def post(self, request: Request):
+        data = self.serializer_class(data=request.data)
+        # raise_exception => lanzara la excepcion con el mensaje que dio el error y no permitira continuar con codigo siguiente
         if data.is_valid():
-            # PARA HACER EL GUARDADO DE UN NUEVO REGISTRO EN LABD ES OBLIGATORIO HACER PRIMERO EL IS_vALID
+            # para hacer el guardado de un nuevo registro en la bd es OBLIGATORIO hacer primero el is_valid()
             data.save()
+
             return Response(data={
-                "message":"Producto creado exitosamente",
-                "content":data.data
-            },status=status.HTTP_201_CREATED)
+                "message": "Producto creado exitosamente",
+                "content": data.data
+            }, status=status.HTTP_201_CREATED)
         else:
+            # data.errors => almacena todos los errores que no han permitido que esa informacion sea valida (is_valid() = false)
             return Response(data={
-                "message":"Error al guardar",
-                "content":data.errors
-                }, status=status.HTTP_400_BAD_REQUEST)
+                "message": "Error al guardar el producto",
+                "content": data.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProductoController(APIView):
-    def get(self, request,id):
 
-        print(id)
-        # select* from productos where id = id
-        productoEncontrado=ProductoModel.objects.filter(productoId=id).first()
-        
-        print(productoEncontrado)
+    def get(self, request, id):
+        # SELECT * FROM productos WHERE id = id
+        productoEncontrado = ProductoModel.objects.filter(
+            productoId=id).first()
         try:
-            productoEncontrado2=ProductoModel.objects.get(productoId=id)
+            productoEncontrado2 = ProductoModel.objects.get(productoId=id)
             print(productoEncontrado2)
         except ProductoModel.DoesNotExist:
-            print('no se encontró')
+            print('No se encontro')
+
         if productoEncontrado is None:
             return Response(data={
-                "message":"Producto no existe",
-                
-                }, status=status.HTTP_404_NOT_FOUND)
-
-        serializador = ProductoSerializer(instance=productoEncontrado2)
-
-        return Response(data={
-            "message":None,
-            "content":serializador.data
-        })
-    def put(self,request:Request,id):
-        # 1. busco si el producto existe
-        productoEncontrado=ProductoModel.objects.filter(productoId=id).first()
-        if productoEncontrado is None:
-            return Response(data={
-                "message":"Producto no existe",
-                "content":None
+                "message": "Producto no encontrado",
+                "content": None
             }, status=status.HTTP_404_NOT_FOUND)
-        # 2. modificaré los valores proveidos
+
+        serializador = ProductoSerializer(instance=productoEncontrado)
+        return Response(data={
+            "message": None,
+            "content": serializador.data
+        })
+
+    def put(self, request: Request, id):
+        # 1. busco si el producto existe
+        productoEncontrado = ProductoModel.objects.filter(
+            productoId=id).first()
+
+        if productoEncontrado is None:
+            return Response(data={
+                "message": "Producto no existe",
+                "content": None
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # 2. modificare los valores proveidos
         serializador = ProductoSerializer(data=request.data)
         if serializador.is_valid():
-        
-            serializador.update(instance=productoEncontrado,validated_data=serializador.validated_data)
-            # 3. guardaré y devolveré el producto actualizado
+            serializador.update(instance=productoEncontrado,
+                                validated_data=serializador.validated_data)
+            # 3. guardare y devolver el producto actualizado
             return Response(data={
-                "message":"Producto actualizado exitosamente",
-                "content":serializador.data
+                "message": "Producto actualizado exitosamente",
+                "content": serializador.data
             })
         else:
             return Response(data={
-                "message":"Error al actualizar",
-                "content":serializador.errors
-            }, status=400)
+                "message": "Error al actualizar el producto",
+                "content": serializador.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,id):
-        productoEncontrado=ProductoModel.objects.filter(productoId=id).first()
+    def delete(self, request, id):
+
+        productoEncontrado: ProductoModel = ProductoModel.objects.filter(
+            productoId=id).first()
+
         if productoEncontrado is None:
             return Response(data={
-                "message":"Producto no encontrado",
-                "content":None
-            },status=status.HTTP_404_NOT_FOUND)
-        
-        productoEncontrado.productoEstado=False
+                "message": "Producto no encontrado",
+                "content": None
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # modificar su estado a False
+        productoEncontrado.productoEstado = False
         productoEncontrado.save()
 
-        serializador=ProductoSerializer(instance=productoEncontrado)
+        serializador = ProductoSerializer(instance=productoEncontrado)
 
         return Response(data={
-            "message":"Producto eliminado exitosamente",
-            "content":serializador.data
+            "message": "Producto eliminado exitosamente",
+            "content": serializador.data
         })
-        
+
 
 class ClienteController(ListCreateAPIView):
-    queryset=ClienteModel.objects.all()
-    def get(self,request):
+    queryset = ClienteModel.objects.all()
+    serializer_class = ClienteSerializer
+
+    def get(self, request):
         pass
-    
-    def post(self,request:Request):
-        data:Serializer=self.get_serializer(data=request.data)
+
+    def post(self, request: Request):
+
+        data: Serializer = self.get_serializer(data=request.data)
         if data.is_valid():
             return Response(data={
-                "message":"Cliente agregado exitosamente"
+                'message': 'Cliente agregado exitosamente'
             })
         else:
             return Response(data={
-                "message":"Error al ingresar el cliente",
-                "content":data.errors
+                'message': 'Error al ingresar el cliente',
+                'content': data.errors
             })
-
-
-
-

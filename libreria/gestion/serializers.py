@@ -1,21 +1,24 @@
 from rest_framework import serializers
-from .models import ProductoModel,ClienteModel
+from .models import ProductoModel, ClienteModel
+
 
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
-        # esto vinculará el serializador con el modelo respectivo para alar sus atributos y hacer la validaicones corresponientes
+        # esto vinculara el serializador con el modelo respectivo para jalar sus atributos y hacer las validaciones correspondientes
         model = ProductoModel
-        # indica qué campos tengo que mostrar para la deserialización 
-        # ---
-        # indicará qué haremos uso de todaos los atributos del modelo
-        fields='__all__'
-        # fields=['productoNombre','productoPrecio']
-        # ---
-        # atributos para excluir
-        # exclude=['productoId']
+
+        # indica que campos tengo q mostrar para la deserealizacion
+        # fields = '__all__' => indicara que haremos uso de todas los atributos del modelo
+        fields = '__all__'
+        # fields = ['productoNombre', 'productoPrecio']
+
+        # exclude = ['campo1', 'campo2'] => excluira tanto de la peticion como del retorno de elementos los atributos indicados
+        # exclude = ['productoId']
+
+        # no se puede utilizar los dos atributos al mismo tiempo, es decir, o usamos el exclude o usamos el fields
 
 
 class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
-        model=ClienteModel
-        fields='__all__'
+        model = ClienteModel
+        fields = '__all__'

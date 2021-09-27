@@ -19,6 +19,7 @@ class ProductoSerializer(serializers.ModelSerializer):
 
 
 class ClienteSerializer(serializers.ModelSerializer):
+    
     clienteNombre=serializers.CharField(max_length=45, required=False,trim_whitespace=True,read_only=True)
     clienteDireccion=serializers.CharField(max_length=100,required=False,trim_whitespace=True)
     # clienteSexo=serializers.CharField(required=True,max_length=5)

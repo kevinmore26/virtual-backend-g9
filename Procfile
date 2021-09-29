@@ -1,1 +1,1 @@
-web: gunicorn liberia.wsgi
+web: gunicorn libreria.wsgi

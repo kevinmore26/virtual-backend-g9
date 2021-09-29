@@ -137,7 +137,7 @@ class BuscadorClienteTestCase(APITestCase):
         message = request.data.get('message')
         content = request.data.get('data').get('content')
         # nombre = request.query_params.get('nombre')
-        # documento = request.data.get('content').get('clienteDocumento')
+        documento = request.data.get('content').get('clienteDocumento')
 
         self.assertIsNone(content.data.get('clienteDocumento'))
         self.assertEqual(request.status_code, 404)

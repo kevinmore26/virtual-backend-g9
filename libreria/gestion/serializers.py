@@ -1,5 +1,6 @@
+
 from rest_framework import serializers
-from .models import ProductoModel, ClienteModel
+from .models import CabeceraModel, ProductoModel, ClienteModel,DetalleModel
 
 
 class ProductoSerializer(serializers.ModelSerializer):
@@ -26,3 +27,32 @@ class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClienteModel
         fields = '__all__'
+
+class DetalleOperacionSerializer(serializers.Serializer):
+    cantidad=serializers.IntegerField(required=True,min_value=1)
+    importe=serializers.DecimalField(max_digits=5,decimal_places=2,min_value=0.01,required=True)
+    producto=serializers.IntegerField(required=True,min_value=1)
+
+
+class OperacionSerializer ( serializers.Serializer):
+    tipo = serializers.ChoiceField(choices=[('V','VENTA'),('C','COMPRA')] ,required=True)
+    cliente=serializers.IntegerField(required=True,min_value=1)
+
+    detalle=DetalleOperacionSerializer(many=True)
+
+class DetalleOperacionModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=DetalleModel
+        # fields='__all__'
+        exclude=['cabeceras']
+        depth=1
+
+class OperacionModelSerializer(serializers.ModelSerializer):
+    cabeceraDetalles=DetalleOperacionModelSerializer(many=True)
+    # X=DetalleOperacionesModelSerializer(source=cabeceraDetalles,many=True)
+
+    class Meta:
+        
+        model=CabeceraModel
+        fields='__all__'
+        depth = 1

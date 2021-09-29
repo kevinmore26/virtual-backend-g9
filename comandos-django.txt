@@ -24,3 +24,5 @@ python manage.py test #--verbose 1#  => correrá todos los archivos test.py que 
 python manage.py createsuperuser
 
 python manage.py dbshell => usara las credenciales de nuestro proyecto para conectarnos a la bd del proyecto
+
+python manage.py collectstatic => genera todos los assets necesarios para las librerias que usen CSS, JS, IMG entre otros y se basara en la variable llamada STATIC_ROOT en nuestro settings.py

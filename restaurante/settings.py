@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from os import environ
 from dotenv import load_dotenv
-
+from datetime import timedelta
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cms',
+    'facturacion',
     'rest_framework',
 ]
 
@@ -138,3 +139,18 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='cms.UsuarioModel'
+
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT={
+    'USER_ID_FIELD':'usuarioId',
+    'ACCESS_TOKEN_LIFETIME':timedelta(hours=1)
+}
+
+MEDIA_ROOT= BASE_DIR / 'media'
+MEDIA_URL = '/assets/'

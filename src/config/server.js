@@ -31,10 +31,10 @@ export class Server {
       }); 
     });
     if (process.env.NODE_ENV === "production") {
-      documentacion.host = "https://tareas-express-kevin.herokuapp.com/";
+      documentacion.host = "tareas-express-kevin.herokuapp.com/";
       documentacion.schemes = ["https"];
     } else {
-      documentacion.host = `http://127.0.0.1;${this.puerto}`;
+      documentacion.host = `127.0.0.1;${this.puerto}`;
       documentacion.schemes = ["http"];
     }
     this.app.use(tareasRouter);

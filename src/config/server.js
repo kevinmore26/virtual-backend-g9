@@ -34,7 +34,7 @@ export class Server {
       documentacion.host = "tareas-express-kevin.herokuapp.com";
       documentacion.schemes = ["https"];
     } else {
-      documentacion.host = `127.0.0.1;${this.puerto}`;
+      documentacion.host = `127.0.0.1:${this.puerto}`;
       documentacion.schemes = ["http"];
     }
     this.app.use(tareasRouter);

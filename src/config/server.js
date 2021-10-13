@@ -28,8 +28,13 @@ export class Server {
     this.app.get("/", (req, res) => {
       res.json({
         message: "Bienvenido a mi API",
-      });
+      }); 
     });
+    process.env.NODE_ENV === "production"
+    ? ((documentacion.host = "https://tareas-express-kevin.herokuapp.com/"),
+      (documentacion.schemes = ["https"]))
+    : ((documentacion.host = `http://127.0.0.1;${this.puerto}`),
+      (documentacion.schemes = ["http"]));
     this.app.use(tareasRouter);
     this.app.use('/docs', swagger.serve, swagger.setup(documentacion));
   }

@@ -1,6 +1,0 @@
-yarn --version
-yarn init
-express en modo de produccion
-yan add express
-
-yarn build

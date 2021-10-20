@@ -1,4 +1,6 @@
-import {Server} from './config/server'
+import "reflect-metadata"
+import { Server } from "./config/server";
 
 const objServer = new Server();
+
 objServer.start();

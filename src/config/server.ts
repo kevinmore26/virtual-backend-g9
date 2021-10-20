@@ -11,7 +11,7 @@ export class Server {
   // private => no podra ser accedido desde fuera de la clase
   // readonly => no podra ser modificado su valor afuera del constructor
   private readonly app: Express;
-  private readonly puerto: number;
+  private readonly puerto: unknown;
 
   constructor() {
     this.app = express();

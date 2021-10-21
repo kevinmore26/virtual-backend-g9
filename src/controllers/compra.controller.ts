@@ -5,8 +5,10 @@ import {Compras,Detalles,Productos} from "../config/models";
 import {CompraDto} from "../dtos/request/compra.dto"
 import conexion from "../config/sequelize";
 import { RequestUser } from "../middlewares/validator";
-import {configure, preferences} from 'mercadopago'
+
 // import {Create} from 'mercadopago'
+import { configure, preferences, payment, merchant_orders } from "mercadopago";
+
 import {CreatePreferencePayload} from 'mercadopago/models/preferences/create-payload.model'
 
 export const crearCompra = async (req: RequestUser, res: Response) => {
@@ -192,7 +194,7 @@ export const crearPreferencia = async (req: Request, res: Response) => {
       //  installments => numero maximo de cuotas permitido (en el caso que sea una tarjeta de credito)
       installments: 6,
     },
-    notification_url:'https://bodega-mp-kevin.herokuapp.com/mp-notificaciones'
+    notification_url:'https://bodega-mp-kevin.herokuapp.com/mp-notificaciones?source_news=ipn'
   };
   try {
     const rptaMP = await preferences.create(payload);
@@ -218,14 +220,23 @@ export const mpNotificaciones = async (req: Request, res: Response) => {
   console.log(req.body);
   console.log("----------QUERY PARAMS------");
   console.log(req.query);
-  return res.status(200).send("ok");
-
   // validar si ya no existe la compra con ese id del merchant_order o payment_id y si no existe hacer lo siguiente:
   // iterar ya sea el merchant_order o el payment para :
   // 1. buscar el nodo de items
   // 2. iterar los items y buscar en la bd dichos productos para hacer su descuento (quitar el inventario)
   // 3. guardar ese merchant_order o payment en el modelo de compra (recien se genera el registro)
 
-  
+  if (req.query?.topic && req.query.topic === "merchant_order") {
+    const { id } = req.query;
+    const data = await merchant_orders.findById(String(id));
+    if (data.body.order_status === "paid") {
+      // dispararian su evento para completar el pago
+      // 1. enviar un correo al usuario indicando que el pago se realizo exitosamente y estan preparando el producto para enviarlo
+      // 2. notificar al area de despacho o almacen para que comience a preparar el (los) productos
+      // 3. remover AHORA si el item del inventario
+    }
+  }
+  return res.status(200).send("ok");
 };
+
 

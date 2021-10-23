@@ -1,19 +1,38 @@
-import express, {Express, json} from "express"
-export default class Server{
-    private readonly app: Express;
-    private readonly port:string;
+import express, {Express, json} from "express";
+import {connect} from "mongoose";
+import clienteRouter from "../routes/cliente.routes";
 
-    constructor(){
-        this.app=express();
-        this.port=process.env.PORT ?? "8000" ;
-        this.bodyParser();
+export default class Server {
+    private readonly app: Express;
+    private readonly port: string;
+  
+    constructor() {
+      this.app = express();
+      this.port = process.env.PORT ?? "8000";
+      this.bodyParser();
+      this.routes();
     }
-    private bodyParser(){
-        this.app.use(json());
+  
+    private bodyParser() {
+      this.app.use(json());
     }
-    start(){
-        this.app.listen(this.port,()=>{
-            console.log(`servidor corriendo exitosamente en el puerto ${this.port}`)
-        })
+  
+    private routes() {
+      this.app.use(clienteRouter);
     }
-}
+  
+    start() {
+      this.app.listen(this.port, async () => {
+        console.log(
+          `Servidor corriendo exitosamente en el puerto ${this.port} 🚀🚀🚀`
+        );
+        try {
+          await connect(process.env.DATABASE_URL ?? "");
+          console.log("Servidor de base de datos conectado exitosamente");
+        } catch (error) {
+          console.log("Error al conectar la bd");
+        }
+      });
+    }
+  }
+  
